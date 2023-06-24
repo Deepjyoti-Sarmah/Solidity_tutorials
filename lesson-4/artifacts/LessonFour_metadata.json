@@ -1,0 +1,141 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "priceFeed",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "LessonFour__WrongPrice",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "actualPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDecimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPriceFeed",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "priceGuess",
+						"type": "uint256"
+					}
+				],
+				"name": "solveChallenge",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Solidity_Tutorials/lesson-4/quize.sol": "LessonFour"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Solidity_Tutorials/lesson-4/AggregatorV3Interface.sol": {
+			"keccak256": "0xe5f9e539e44edc827a90a4767c6f0cfb535378564d8a9b7413627b91eeff5a86",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://24afb446f63ce369817b92ffa04e62d528f27e8d7b1ccfdc9f1e909722a7d1a3",
+				"dweb:/ipfs/QmfZ3gGzNG23shDUeUeEMajK6drWWiwRwXd8S8XFwytXgo"
+			]
+		},
+		"Solidity_Tutorials/lesson-4/quize.sol": {
+			"keccak256": "0x53e997e639627986bb4007a0bd64c207614aca82091f1ec7a14657914056567a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://57b68b8c62750465417cd2222c8fd128d6a088a891ebd3ddb19f70cfbc3208eb",
+				"dweb:/ipfs/QmR8r5qzqy4PfwPkvbwuQSiajwcXyY593jpXQuMXQtQaXo"
+			]
+		}
+	},
+	"version": 1
+}

@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"lesson-4/PriceConverter.sol": "PriceConverter"
+			"Solidity_Tutorials/lesson-4/PriceConverter.sol": "PriceConverter"
 		},
 		"evmVersion": "shanghai",
 		"libraries": {},
@@ -40,7 +40,7 @@
 				"dweb:/ipfs/QmeZUVwd26LzK4Mfp8Zba5JbQNkZFfTzFu1A6FVMMZDg9c"
 			]
 		},
-		"lesson-4/PriceConverter.sol": {
+		"Solidity_Tutorials/lesson-4/PriceConverter.sol": {
 			"keccak256": "0x297fab0d0b3b740cf7500f26ca64d85fa100c85610d4e8de8e1116235a123186",
 			"license": "MIT",
 			"urls": [
