@@ -1,0 +1,82 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "LessonFive__WrongPassword",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "EXPECTED_BYTES",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "password",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "yourTwitterHandle",
+						"type": "string"
+					}
+				],
+				"name": "solveChallenge",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Solidity_Tutorials/lesson--5/encode_decode.sol": "LessonFive"
+		},
+		"evmVersion": "shanghai",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Solidity_Tutorials/lesson--5/encode_decode.sol": {
+			"keccak256": "0xa030cbadc9920b3efe5d07ce3ab82cd166882059480452b17d21b8e183339020",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://eca7deb160c1abfbf559a500de761ec2e4a99a8dfd974bc52d686ea1e8b62c0f",
+				"dweb:/ipfs/QmQdgWhMQJenhKo6N4yudeHfUXVXkbLj2aKewSCHZd1HKy"
+			]
+		}
+	},
+	"version": 1
+}
