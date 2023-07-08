@@ -21,66 +21,85 @@
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.19;
 
 import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
-
 import {VRFConsumerBaseV2} from "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+import {AutomationCompatibleInterface} from "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol";
 
-/**
- * @title A sample Raffle contract
- * @author Deepkjyoti Sarmah
- * @notice This contract is for creating a sample raffle
- * @dev Implements Chainlink VRFv2
+/**@title A sample Raffle Contract
+ * @author Patrick Collins
+ * @notice This contract is for creating a sample raffle contract
+ * @dev This implements the Chainlink VRF Version 2
  */
-contract Raffle is VRFConsumerBaseV2 {
-    error Raffle_NotEnoughEthSent();
+contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
+    /* Errors */
+    error Raffle__UpkeepNotNeeded(
+        uint256 currentBalance,
+        uint256 numPlayers,
+        uint256 raffleState
+    );
+    error Raffle__TransferFailed();
+    error Raffle__SendMoreToEnterRaffle();
+    error Raffle__RaffleNotOpen();
 
-    /**State Variable */
+    /* Type declarations */
+    enum RaffleState {
+        OPEN,
+        CALCULATING
+    }
+    /* State variables */
+    // Chainlink VRF Variables
+    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
+    uint64 private immutable i_subscriptionId;
+    bytes32 private immutable i_gasLane;
+    uint32 private immutable i_callbackGasLimit;
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
     uint32 private constant NUM_WORDS = 1;
 
-    uint256 private immutable i_entranceFee;
-    // @dev Duration of the lottery in sec
+    // Lottery Variables
     uint256 private immutable i_interval;
-    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
-    bytes32 private immutable i_gasLane;
-    uint64 private immutable i_subscriptionId;
-    uint32 private immutable i_callbackGasLimit;
-
-    address payable[] private s_players;
+    uint256 private immutable i_entranceFee;
     uint256 private s_lastTimeStamp;
+    address private s_recentWinner;
+    address payable[] private s_players;
+    RaffleState private s_raffleState;
 
-    /**Events */
-    event EnterRaffle(address indexed player);
+    /* Events */
+    event RaffleEnter(address indexed player);
 
+    /* Functions */
     constructor(
-        uint256 entranceFee,
-        uint256 interval,
-        address vrfCoordinator,
-        bytes32 gasLane,
         uint64 subscriptionId,
-        uint32 callbackGasLimit
-    ) VRFConsumerBaseV2(vrfCoordinator) {
-        i_entranceFee = entranceFee;
-        i_interval = interval;
-        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinator);
+        bytes32 gasLane, // keyHash
+        uint256 interval,
+        uint256 entranceFee,
+        uint32 callbackGasLimit,
+        address vrfCoordinatorV2
+    ) VRFConsumerBaseV2(vrfCoordinatorV2) {
+        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_gasLane = gasLane;
+        i_interval = interval;
         i_subscriptionId = subscriptionId;
-        i_callbackGasLimit = callbackGasLimit;
+        i_entranceFee = entranceFee;
+        s_raffleState = RaffleState.OPEN;
         s_lastTimeStamp = block.timestamp;
+        i_callbackGasLimit = callbackGasLimit;
     }
 
-    function enterRaffle() external payable {
-        // require(msg.value >= i_entranceFee, "Not enough ETH sent!");
+    function enterRaffle() public payable {
+        // require(msg.value >= i_entranceFee, "Not enough value sent");
+        // require(s_raffleState == RaffleState.OPEN, "Raffle is not open");
         if (msg.value < i_entranceFee) {
-            revert Raffle_NotEnoughEthSent();
+            revert Raffle__SendMoreToEnterRaffle();
         }
-
+        if (s_raffleState != RaffleState.OPEN) {
+            revert Raffle__RaffleNotOpen();
+        }
         s_players.push(payable(msg.sender));
-        //1. Makes migration easier
-        //2. Makes front-enf "indexing" easier
-        emit EnterRaffle(msg.sender);
+        // Emit an event when we update a dynamic array or mapping
+        // Named events with the function name reversed
+        emit RaffleEnter(msg.sender);
     }
 
     //1. Get a random number
