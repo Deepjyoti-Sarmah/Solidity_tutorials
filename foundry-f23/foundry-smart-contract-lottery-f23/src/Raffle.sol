@@ -125,29 +125,30 @@ contract Raffle is VRFConsumerBaseV2 {
         );
     }
 
-    function fullfilRandomWords(
-        uint256 requestId,
+    // CEI --> Checks, Effects, Interactions
+    function fulfillRandomWords(
+        uint256 /* requestId */,
         uint256[] memory randomWords
     ) internal override {
-        //s_player = 10
-        // rng = 12
-        // 12 % 10 = 2 <--
-        //8570932578294570879427375983275 % 10 = 5
+        // s_players size 10
+        // randomNumber 202
+        // 202 % 10 ? what's doesn't divide evenly into 202?
+        // 20 * 10 = 200
+        // 2
+        // 202 % 10 = 2
         uint256 indexOfWinner = randomWords[0] % s_players.length;
-        address payable winner = s_players[indexOfWinner];
-        s_recentWinner = winner;
-        s_raffleState = RaffleState.OPEN;
-
+        address payable recentWinner = s_players[indexOfWinner];
+        s_recentWinner = recentWinner;
         s_players = new address payable[](0);
+        s_raffleState = RaffleState.OPEN;
         s_lastTimeStamp = block.timestamp;
+        emit PickedWinner(recentWinner);
 
-        (bool success, ) = s_recentWinner.call{value: address(this).balance}(
-            ""
-        );
+        (bool success, ) = recentWinner.call{value: address(this).balance}("");
+        // require(success, "Transfer failed");
         if (!success) {
             revert Raffle__TransferFailed();
         }
-        emit PickedWinner(winner);
     }
 
     /**Getter function */
