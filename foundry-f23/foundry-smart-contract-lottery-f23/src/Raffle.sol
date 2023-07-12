@@ -104,6 +104,11 @@ contract Raffle is VRFConsumerBaseV2 {
         emit RaffleEnter(msg.sender);
     }
 
+    //when is the winner supposed to be picked?
+    function checkUpkeep(
+        bytes memory /* checkData */
+    ) public view returns (bool upkeepNeeded, bytes memory /* performData */) {}
+
     //1. Get a random number
     //2. Use the random number to pick a player
     //3. Be automatically called
