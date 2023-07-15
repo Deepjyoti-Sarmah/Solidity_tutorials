@@ -18,6 +18,11 @@ contract DeployRaffle is Script {
             address vrfCoordinatorV2
         ) = helperConfig.activeNetworkConfig();
 
+        if(subscriptionId == 0) {
+            // we are gooing to need to create a subscription
+            
+        }
+
         vm.startBroadcast();
         Raffle raffle = new Raffle(
             subscriptionId,

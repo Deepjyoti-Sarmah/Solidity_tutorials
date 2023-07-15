@@ -67,7 +67,7 @@ contract Raffle is VRFConsumerBaseV2 {
     RaffleState private s_raffleState;
 
     /* Events */
-    event RaffleEnter(address indexed player);
+    event EnterRaffle(address indexed player);
     event PickedWinner(address indexed winner);
 
     /* Functions */
@@ -101,7 +101,7 @@ contract Raffle is VRFConsumerBaseV2 {
         s_players.push(payable(msg.sender));
         // Emit an event when we update a dynamic array or mapping
         // Named events with the function name reversed
-        emit RaffleEnter(msg.sender);
+        emit EnterRaffle(msg.sender);
     }
 
     /**
