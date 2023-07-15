@@ -5,6 +5,7 @@ pragma solidity ^0.8.19;
 import {Script} from "forge-std/Script.sol";
 import {Raffle} from "../src/Raffle.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
+import {CreateSubsription} from "./Interactions.s.sol";
 
 contract DeployRaffle is Script {
     function run() external returns (Raffle, HelperConfig) {
@@ -18,9 +19,12 @@ contract DeployRaffle is Script {
             address vrfCoordinatorV2
         ) = helperConfig.activeNetworkConfig();
 
-        if(subscriptionId == 0) {
+        if (subscriptionId == 0) {
             // we are gooing to need to create a subscription
-            
+            CreateSubsription createSubscription = new CreateSubsription();
+            subscriptionId = createSubscription.createSubscription(
+                vrfCoordinatorV2
+            );
         }
 
         vm.startBroadcast();
