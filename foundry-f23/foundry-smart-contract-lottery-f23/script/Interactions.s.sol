@@ -9,7 +9,7 @@ import {VRFCoordinatorV2Mock} from "@chainlink/contracts/src/v0.8/mocks/VRFCoord
 contract CreateSubsription is Script {
     function createSubscriptionUsingConfig() public returns (uint64) {
         HelperConfig helperConfig = new HelperConfig();
-        (, , , , , address vrfCoordinatorV2) = helperConfig
+        (, , , , , address vrfCoordinatorV2, ) = helperConfig
             .activeNetworkConfig();
         return createSubscription(vrfCoordinatorV2);
     }
@@ -26,5 +26,26 @@ contract CreateSubsription is Script {
 
     function run() external returns (uint64) {
         return createSubscriptionUsingConfig();
+    }
+}
+
+contract FundSubscription is Script {
+    uint96 public constant FUND_AMOUNT = 3 ether;
+
+    function FundSubscriptionConfig() public {
+        HelperConfig helperConfig = new HelperConfig();
+        (
+            uint64 subId,
+            ,
+            ,
+            ,
+            ,
+            address vrfCoordinatorV2,
+            address link
+        ) = helperConfig.activeNetworkConfig();
+    }
+
+    function run() external {
+        FundSubscriptionConfig();
     }
 }

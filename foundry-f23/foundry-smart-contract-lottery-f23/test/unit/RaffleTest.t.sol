@@ -20,6 +20,7 @@ contract RaffleTest is Test {
     uint256 entranceFee;
     uint32 callbackGasLimit;
     address vrfCoordinatorV2;
+    address link;
 
     address public PLAYER = makeAddr("player");
     uint256 public constant STARTING_USER_BALANCE = 10 ether;
@@ -33,12 +34,13 @@ contract RaffleTest is Test {
             interval,
             entranceFee,
             callbackGasLimit,
-            vrfCoordinatorV2
+            vrfCoordinatorV2,
+            link
         ) = helperConfig.activeNetworkConfig();
         vm.deal(PLAYER, STARTING_USER_BALANCE);
     }
 
-    function testRaggleInitializesInOpenState() public view {
+    function testRaffleInitializesInOpenState() public view {
         assert(raffle.getRaffleState() == Raffle.RaffleState.OPEN);
     }
 
@@ -78,6 +80,5 @@ contract RaffleTest is Test {
         vm.expectRevert(Raffle.Raffle__RaffleNotOpen.selector);
         vm.prank(PLAYER);
         raffle.enterRaffle{value: entranceFee}();
-
     }
 }
