@@ -228,6 +228,8 @@ contract RaffleTest is Test {
             raffle.enterRaffle{value: entranceFee}();
         }
 
+        uint256 prize = entranceFee * (additionalEntrance + 1);
+
         vm.recordLogs();
         raffle.performUpkeep(""); //emit the requestId
         Vm.Log[] memory entries = vm.getRecordedLogs();
@@ -240,7 +242,14 @@ contract RaffleTest is Test {
             address(raffle)
         );
 
+        uint256 previousTimeStamp = raffle.getLastTimeStamp();
         //assert
-        assert(uint256(raffle.getRaffleState()) == 0); 
+        assert(uint256(raffle.getRaffleState()) == 0);
+        assert(raffle.getRecentWinner() != address(0));
+        assert(raffle.getLengthOfPlayers() == 0);
+        assert(previousTimeStamp < raffle.getLastTimeStamp());
+        assert(
+            raffle.getRecentWinner().balance == STARTING_USER_BALANCE + prize
+        );
     }
 }
