@@ -37,7 +37,8 @@ contract RaffleTest is Test {
             entranceFee,
             callbackGasLimit,
             vrfCoordinatorV2,
-            link
+            link,
+
         ) = helperConfig.activeNetworkConfig();
         vm.deal(PLAYER, STARTING_USER_BALANCE);
     }
@@ -200,9 +201,16 @@ contract RaffleTest is Test {
     // fulfillRandomWords//
     ///////////////////////
 
+    modifier skipFork() {
+        if (block.chainid != 31337) {
+            return;
+        }
+        _;
+    }
+
     function testFulfillRandomWordsCanOnlyBeCalledAfterPerformUpkeep(
         uint256 randomRequestId
-    ) public raffleEnterAndTimePassed {
+    ) public raffleEnterAndTimePassed skipFork {
         //Arrange
         vm.expectRevert("nonexistent request");
         VRFCoordinatorV2Mock(vrfCoordinatorV2).fulfillRandomWords(
@@ -211,54 +219,10 @@ contract RaffleTest is Test {
         );
     }
 
-    // function testFulfilRandomWordsPickAWinnerResetsAndSendsMoney()
-    //     public
-    //     raffleEnterAndTimePassed
-    // {
-    //     //Arrange
-    //     uint256 additionalEntrance = 5;
-    //     uint256 startingIndex = 1;
-    //     for (
-    //         uint256 i = startingIndex;
-    //         i < startingIndex + additionalEntrance;
-    //         i++
-    //     ) {
-    //         address player = address(uint160(i)); //address(3)
-    //         hoax(player, 1 ether);
-    //         raffle.enterRaffle{value: entranceFee}();
-    //     }
-
-    //     uint256 prize = entranceFee * (additionalEntrance + 1);
-
-    //     vm.recordLogs();
-    //     raffle.performUpkeep(""); //emit the requestId
-    //     Vm.Log[] memory entries = vm.getRecordedLogs();
-    //     bytes32 requestId = entries[1].topics[1];
-
-    //     //pretend to be chainlink vrf to get random number & pick winner
-
-    //     VRFCoordinatorV2Mock(vrfCoordinatorV2).fulfillRandomWords(
-    //         uint256(requestId),
-    //         address(raffle)
-    //     );
-
-    //     uint256 previousTimeStamp = raffle.getLastTimeStamp();
-    //     //assert
-    //     // assert(uint256(raffle.getRaffleState()) == 0);
-    //     // assert(raffle.getRecentWinner() != address(0));
-    //     // assert(raffle.getLengthOfPlayers() == 0);
-    //     // assert(previousTimeStamp < raffle.getLastTimeStamp());
-    //     console.log(raffle.getRecentWinner());
-    //     console.log(prize + STARTING_USER_BALANCE);
-
-    //     assert(
-    //         raffle.getRecentWinner().balance ==
-    //             STARTING_USER_BALANCE + prize - entranceFee
-    //     );
-    // }
     function testFulfillRandomWordsPicksAWinnerResetsAndSendsMoney()
         public
         raffleEnterAndTimePassed
+        skipFork
     {
         address expectedWinner = address(1);
 
