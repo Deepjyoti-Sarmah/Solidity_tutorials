@@ -14,11 +14,14 @@ contract DeployMoodNftTest is Test {
 
     function testConvertSvgToUri() public view {
         string
-            memory expectedUri = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj4KICAgIDx0ZXh0IHg9IjAiIHk9IjE1IiBmaWxsPSJibGFjayI+aGkhIFlvdSBkZWNvZGVkIHRoaXMhIDwvdGV4dD4KPC9zdmc+";
+            memory expectedUri = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48dGV4dCB4PSIwIiB5PSIxNSIgZmlsbD0iYmxhY2siPmhpISBZb3UgZGVjb2RlZCB0aGlzITwvdGV4dD48L3N2Zz4=";
         string
             memory svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><text x="0" y="15" fill="black">hi! You decoded this!</text></svg>';
 
         string memory actualUri = deployer.svgToImageURI(svg);
+
+        // console.log(expectedUri);
+        // console.log(actualUri);
 
         assert(
             keccak256(abi.encodePacked(actualUri)) ==
