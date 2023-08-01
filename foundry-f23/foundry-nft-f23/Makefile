@@ -45,8 +45,13 @@ deploy:
 deployMood:
 	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
 
-mintMoodNft:
-	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
+# mintMoodNft:
+# 	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
+
+mintMood:
+	cast send 0x90193C961A926261B756D1E5bb255e67ff9498A1 "mintNft()" --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+#	cast send 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 "mintNft()" --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+#	cast send 0x5FbDB2315678afecb367f032d93 "mintNft()" --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
 
 flipMoodNft:
 	@forge script script/Interactions.s.sol:FlipMoodNft $(NETWORK_ARGS)
