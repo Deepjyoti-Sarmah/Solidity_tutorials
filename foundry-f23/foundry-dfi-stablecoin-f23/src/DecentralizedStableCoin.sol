@@ -40,6 +40,23 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
  */
 
 contract DecentralizedStableCoin is ERC20Burnable, Ownable {
+    error DecentralizedStableCoin__MustBeMoreThanZero();
+    error DecentralizedStableCoin__BurnedAmountExceedsBalance();
+
     constructor() ERC20("DecentralizedStableCoin", "DSC") {}
-    
+
+    function burn(uint256 _amount) public override onlyOwner {
+        uint256 balance = balanceOf(msg.sender);
+        if (_amount <= 0) {
+            revert DecentralizedStableCoin__MustBeMoreThanZero();
+        }
+
+        if (balance < _amount) {
+            revert DecentralizedStableCoin__BurnedAmountExceedsBalance();
+        }
+
+        super.burn(_amount);
+    }
+
+    function mint()
 }
