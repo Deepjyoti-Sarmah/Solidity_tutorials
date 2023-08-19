@@ -5,8 +5,8 @@
 // Layout of Contract:
 // version
 // imports
-// errors
 // interfaces, libraries, contracts
+// errors
 // Type declarations
 // State variables
 // Events
@@ -25,6 +25,9 @@
 
 pragma solidity 0.8.18;
 
+import {DecentralizedStableCoin} from "./DecentralizedStableCoin.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
 /**
  * @title DSCEngine
  * @author Deepjyoti Sarmah
@@ -42,10 +45,78 @@ pragma solidity 0.8.18;
  * @notice This contract is very loosely based on the MakerDSS (DAI) system.
  */
 
-contract DSCEngine {
+contract DSCEngine is ReentrancyGuard {
+    ///////////////
+    // Errors   ///
+    ///////////////
+    error DSCEngine__NeedMoreThanZero();
+    error DSCEngine__TokenAddressesAndPriceFeedAddressesMustBeSame();
+    error DSCEngine__NotAllowedToken();
+
+    /////////////////////
+    // State Variables //
+    /////////////////////
+    mapping(address token => address priceFeed) private s_priceFeeds;
+
+    DecentralizedStableCoin private immutable i_dsc;
+
+    ///////////////
+    // Modifiers///
+    ///////////////
+    modifier moreThanZero(uint256 amount) {
+        if (amount == 0) {
+            revert DSCEngine__NeedMoreThanZero();
+        }
+        _;
+    }
+
+    modifier isAllowedToken(address token) {
+        if (s_priceFeeds[token] == address(0)) {
+            revert DSCEngine__NotAllowedToken();
+        }
+        _;
+    }
+
+    ///////////////
+    // functions //
+    ///////////////
+    constructor(
+        address[] memory tokenAddresses,
+        address[] memory priceFeedAddress,
+        address dscAddress
+    ) {
+        //USD Price Feeds
+        if (tokenAddresses.length != priceFeedAddress.length) {
+            revert DSCEngine__TokenAddressesAndPriceFeedAddressesMustBeSame();
+        }
+        // e.g., ETH/USD, BTC/USD etc
+        for (uint256 i = 0; i < tokenAddresses.length; i++) {
+            s_priceFeeds[tokenAddresses[i]] = priceFeedAddress[i];
+        }
+        i_dsc = DecentralizedStableCoin(dscAddress);
+    }
+
+    ////////////////////////
+    // External Functions //
+    ////////////////////////
+
     function depositeCollateralAndMintDsc() external {}
 
-    function depositeCollateral() external {}
+    /*
+     *
+     * @param tokenCollateralAddress The address of the token to deposit as collateral
+     * @param amountCollateral The amount of collateral to deposite
+     */
+
+    function depositeCollateral(
+        address tokenCollateralAddress,
+        uint256 amountCollateral
+    )
+        external
+        moreThanZero(amountCollateral)
+        isAllowedToken(tokenCollateralAddress)
+        nonReentrant
+    {}
 
     function redemCollateralForDSC() external {}
 
