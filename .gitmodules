@@ -40,3 +40,6 @@
 [submodule "foundry-f23/foundry-dfi-stablecoin-f23/lib/openzepplin-contracts"]
 	path = foundry-f23/foundry-dfi-stablecoin-f23/lib/openzepplin-contracts
 	url = https://github.com/openzepplin/openzepplin-contracts
+[submodule "foundry-f23/foundry-dfi-stablecoin-f23/lib/openzeppelin-contracts"]
+	path = foundry-f23/foundry-dfi-stablecoin-f23/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
