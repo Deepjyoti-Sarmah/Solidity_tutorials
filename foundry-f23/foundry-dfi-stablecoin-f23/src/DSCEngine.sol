@@ -179,7 +179,5 @@ contract DSCEngine is ReentrancyGuard {
     ////////////////////////////////////////
     // Public and External View Functions //
     ////////////////////////////////////////
-    function getAccountCollateralValue(address user) public view returns (uint256) {
-        
-    }
+    function getAccountCollateralValue(address user) public view returns (uint256) {}
 }
