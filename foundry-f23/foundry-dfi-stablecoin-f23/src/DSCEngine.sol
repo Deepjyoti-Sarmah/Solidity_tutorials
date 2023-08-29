@@ -220,7 +220,11 @@ contract DSCEngine is ReentrancyGuard {
      * @notice: A known bug would be if the protocol was only 100% collateralized, we wouldn't be able to liquidate anyone.
      * For example, if the price of the collateral plummeted before anyone could be liquidated.
      */
-    function liquidate(address collateral, address user, uint256 debtToCover) external moreThanZero(debtToCover) nonReentrant {
+    function liquidate(address collateral, address user, uint256 debtToCover)
+        external
+        moreThanZero(debtToCover)
+        nonReentrant
+    {
         //Need to check health factor of the user
         uint256 startingUerHealthFactor = _healthFactor(user);
         if (startingUerHealthFactor >= MIN_HEALTH_FACTOR) {
@@ -333,5 +337,13 @@ contract DSCEngine is ReentrancyGuard {
         //1 ETH = $1000
         // The returned value value from CL will be 1000 * 1e8
         return (uint256(price) * ADDITIONAL_FEED_PRECISION * amount) / PRECISION;
+    }
+
+    function getAccountInfomation(address user)
+        external
+        view
+        returns (uint256 totalDscMinted, uint256 collateralValueInUsd)
+    {
+        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
     }
 }
