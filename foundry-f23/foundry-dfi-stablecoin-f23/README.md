@@ -1,6 +1,6 @@
 1. (Relative Stability) Anchored or Pegged -> $1.00
    1. Chainlink Price feed.
-   2. Set a function to exchange ETH & BTC -> $
+   2. Set a function to exchange ETH & BTC -> dollar
 2. Stability Mechanism (Minting) : Algorithmic (Decentralized)
    1. People can only mint the stablecoin with enough colletral (coded)
 3. Collateral: Exogenous (Crypto)
