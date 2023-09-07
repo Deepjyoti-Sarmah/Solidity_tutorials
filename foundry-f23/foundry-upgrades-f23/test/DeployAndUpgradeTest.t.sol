@@ -21,8 +21,20 @@ contract DeployAndUpgradeTest is Test {
         proxy = deployer.run(); // right now points to box v1
     }
 
+    function testProxyStartsAsBoxV1() public {
+        vm.expectRevert();
+        BoxV2(proxy).setNumber(7);
+    }
+
     function testUpgrades() public {
         BoxV2 box2 = new BoxV2();
 
+        upgrader.upgradeBox(proxy, address(box2));
+
+        uint256 expectedValue = 2;
+        assertEq(expectedValue, BoxV2(proxy).version());
+
+        BoxV2(proxy).setNumber(7);
+        assertEq(7, BoxV2(proxy).getNumber());
     }
 }
