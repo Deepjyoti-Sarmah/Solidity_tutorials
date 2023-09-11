@@ -10,11 +10,11 @@ contract Box is Ownable{
   event NumberChanged(uint256 number);
 
   function store(uint256 newNumber) public onlyOwner {
-
     s_number = newNumber;
     emit NumberChanged(newNumber);
-  
   }
 
-
+  function getNumber() external view returns (uint256) {
+    return s_number;
+  }
 }
