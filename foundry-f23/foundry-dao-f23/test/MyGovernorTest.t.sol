@@ -28,7 +28,7 @@ contract MyGovernorTest is Test {
     uint256 public constant VOTING_DELAY = 1; // how many blocks till a vote is active 
     uint256 public constant VOTING_PERIOD = 50400;
 
-    function setup() public {
+    function setUp() public {
         govToken = new GovToken();
         govToken.mint(USER, INITIAL_SUPPLY);
         
